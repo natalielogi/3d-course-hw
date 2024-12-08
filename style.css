@@ -16,7 +16,7 @@
 }
 
 .like-btn.liked svg path {
-    fill: red;
+    fill: black;
 }
 
 .likes-count {
