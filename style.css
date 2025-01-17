@@ -1,3 +1,24 @@
+
+#comment-input {
+    width: 200px;
+    height: 100px;
+}
+
+.original-comment {
+    color: gray;
+    font-style: italic;
+    padding-left: 10px;
+}
+
+.reply {
+    margin-left: 20px;
+}
+
+.comment-text {
+    color: black;
+    font-size: 14px;
+}
+
 .like-btn {
     background: none;
     border: none;
@@ -16,7 +37,7 @@
 }
 
 .like-btn.liked svg path {
-    fill: black;
+    fill: red;
 }
 
 .likes-count {
