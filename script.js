@@ -1,8 +1,23 @@
+import { fetchComments } from './modules/api.js'
+import { postComment } from './modules/api.js'
 import { commentsData } from './modules/commentsData.js'
 import { renderComments } from './modules/renderComments.js'
 import { sanitizeInput } from './modules/utils.js'
 
-document.getElementById('submit-btn').addEventListener('click', () => {
+async function loadComments() {
+    try {
+        const fetchedComments = await fetchComments()
+        const commentsArray = fetchedComments.data || []
+        commentsData.push(...commentsArray)
+        renderComments()
+    } catch (error) {
+        console.error('Не удалось загрузить комментарии:', error)
+    }
+}
+
+loadComments()
+
+document.getElementById('submit-btn').addEventListener('click', async () => {
     const commentInput = document.getElementById('comment-input')
     const commentText = commentInput.value.trim()
 
@@ -14,16 +29,26 @@ document.getElementById('submit-btn').addEventListener('click', () => {
     const sanitizedText = sanitizeInput(commentText)
 
     const newComment = {
-        id: commentsData.length + 1,
         text: sanitizedText,
-        likes: 0,
-        liked: false,
-        date: new Date().toLocaleString(),
+        name: 'Наталья Логинова',
     }
 
-    commentsData.push(newComment)
-    renderComments()
-    commentInput.value = ''
-})
+    try {
+        const addedComment = await postComment(newComment)
 
-renderComments()
+        const commentWithExtras = {
+            ...addedComment,
+            id: addedComment.id,
+            likes: 0,
+            liked: false,
+            date: new Date().toISOString(),
+        }
+
+        commentsData.push(commentWithExtras)
+
+        renderComments()
+        commentInput.value = ''
+    } catch (error) {
+        alert('Не удалось отправить комментарий. Попробуйте снова.')
+    }
+})
