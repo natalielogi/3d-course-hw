@@ -20,25 +20,34 @@ loadComments()
 document.getElementById('submit-btn').addEventListener('click', async () => {
     const commentInput = document.getElementById('comment-input')
     const commentText = commentInput.value.trim()
+    const nameInput = document.getElementById('name-input')
+    const commentName = nameInput.value.trim() || 'Аноним'
 
     if (commentText === '') {
         alert('Комментарий не может быть пустым!')
         return
     }
 
+    if (commentText.length < 3) {
+        alert('Комментарий должен быть не менее 3 символов!')
+        return
+    }
+
     const sanitizedText = sanitizeInput(commentText)
+
+    console.log(commentText, commentName)
 
     const newComment = {
         text: sanitizedText,
-        name: 'Наталья Логинова',
+        name: commentName,
     }
 
     try {
-        const addedComment = await postComment(newComment)
+        await postComment(newComment)
 
         const commentWithExtras = {
-            ...addedComment,
-            id: addedComment.id,
+            text: newComment.text,
+            name: newComment.name,
             likes: 0,
             liked: false,
             date: new Date().toISOString(),

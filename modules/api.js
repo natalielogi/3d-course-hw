@@ -19,9 +19,6 @@ export async function postComment(comment) {
     try {
         const response = await fetch(API, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json', // Устанавливаем заголовок
-            },
             body: JSON.stringify({
                 text: comment.text,
                 name: comment.name,
@@ -34,6 +31,7 @@ export async function postComment(comment) {
         }
 
         const result = await response.json()
+        console.log('Успешный ответ сервера после отправки комментария:', result)
         return result
     } catch (error) {
         console.error('Ошибка при отправук комментария:', error.message)
