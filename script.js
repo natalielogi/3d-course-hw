@@ -7,8 +7,21 @@ import { sanitizeInput } from './modules/utils.js'
 async function loadComments() {
     try {
         const fetchedComments = await fetchComments()
-        const commentsArray = fetchedComments.data || []
-        commentsData.push(...commentsArray)
+        const commentsArray = fetchedComments.comments || []
+
+        commentsData.length = 0
+
+        commentsArray.forEach((comment) => {
+            commentsData.push({
+                id: comment.id,
+                text: comment.text,
+                likes: comment.likes,
+                liked: comment.isLiked,
+                date: new Date(comment.date).toLocaleString(),
+                name: comment.author.name,
+            })
+        })
+
         renderComments()
     } catch (error) {
         console.error('Не удалось загрузить комментарии:', error)

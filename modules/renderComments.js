@@ -11,6 +11,11 @@ export function renderComments() {
         const commentDiv = document.createElement('div')
         commentDiv.classList.add('comment')
 
+        const commentAuthor = document.createElement('p')
+        commentAuthor.classList.add('comment-author')
+        commentAuthor.innerHTML = `<strong>${comment.name || 'Аноним'}</strong>`
+        commentDiv.appendChild(commentAuthor)
+
         const commentText = document.createElement('p')
         commentText.classList.add('comment-text')
         commentText.innerHTML = comment.text
