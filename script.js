@@ -48,6 +48,7 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     const commentText = commentInput.value.trim()
     const nameInput = document.getElementById('name-input')
     const commentName = nameInput.value.trim() || 'Аноним'
+    const submitButton = document.getElementById('submit-btn')
 
     if (commentText === '') {
         alert('Комментарий не может быть пустым!')
@@ -69,6 +70,9 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     }
 
     try {
+        submitButton.disabled = true
+        submitButton.textContent = 'Комментарий загружается...'
+
         await postComment(newComment)
 
         const commentWithExtras = {
@@ -85,5 +89,8 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
         commentInput.value = ''
     } catch (error) {
         alert('Не удалось отправить комментарий. Попробуйте снова.')
+    } finally {
+        submitButton.disabled = false
+        submitButton.textContent = 'Отправить'
     }
 })
