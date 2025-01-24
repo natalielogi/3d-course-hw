@@ -3,3 +3,11 @@ export function sanitizeInput(input) {
 
     return escapedInput.replace(/^&gt; (.*)$/gm, '<blockquote>$1</blockquote>')
 }
+
+export function delay(interval = 300) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve()
+        }, interval)
+    })
+}
