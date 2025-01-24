@@ -1,18 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Комментарии</title>
-</head>
-<body>
-<h1>Добавьте Комментарии</h1>
-<input type="text" id="name-input" placeholder="Введите ваше имя">
-<textarea  id="comment-input" placeholder="Ваш комментарий"></textarea>
-<button id="submit-btn">Отправить</button>
-<div id="comments-container"></div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+        <title>Комментарии</title>
+    </head>
+    <body>
+        <div
+            id="loading-message"
+            style="display: none; text-align: center; margin: 20px 0"
+        >
+            Загрузка комментариев...
+        </div>
+        <h1>Добавьте Комментарии</h1>
+        <input type="text" id="name-input" placeholder="Введите ваше имя" />
+        <textarea id="comment-input" placeholder="Ваш комментарий"></textarea>
+        <button id="submit-btn">Отправить</button>
+        <div id="comments-container"></div>
 
-    <script type="module" src="script.js"></script>
-</body>
+        <script type="module" src="script.js"></script>
+    </body>
 </html>
