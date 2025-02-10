@@ -2,6 +2,7 @@ import { postComment } from './api.js'
 import { commentsData } from './commentsData.js'
 import { renderComments } from './renderComments.js'
 import { sanitizeInput } from './utils.js'
+import { getCurrentUser } from './auth.js'
 
 export function handleSubmit() {
     const submitButton = document.getElementById('submit-btn')
@@ -11,6 +12,12 @@ export function handleSubmit() {
     document
         .getElementById('submit-btn')
         .addEventListener('click', async () => {
+            const user = getCurrentUser()
+            if (!user.token) {
+                alert('Для отправки комментария войдите в систему.')
+                return
+            }
+
             const commentText = commentInput.value.trim()
             const commentName = nameInput.value.trim() || 'Аноним'
 
@@ -42,7 +49,7 @@ export function handleSubmit() {
                 submitButton.disabled = true
                 submitButton.textContent = 'Комментарий загружается...'
 
-                await postComment(newComment)
+                await postComment(newComment, user.token)
 
                 const commentWithExtras = {
                     text: newComment.text,

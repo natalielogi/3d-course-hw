@@ -2,6 +2,31 @@ import { loadComments } from './modules/loadComments.js'
 import { handleSubmit } from './modules/handleSubmit.js'
 import { handleLike } from './modules/handleLike.js'
 import { commentsData } from './modules/commentsData.js'
+import { checkAuth, logout, getCurrentUser } from './modules/auth.js'
+import { handleLogin } from './modules/login.js'
+import { handleRegister } from './modules/registr.js'
+import { loadUsers } from './modules/users.js'
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (checkAuth()) {
+        document.getElementById('auth-buttons').style.display = 'none'
+        document.getElementById('user-profile').style.display = 'block'
+        document.getElementById('username').textContent = getCurrentUser().name
+    } else {
+        document.getElementById('auth-buttons').style.display = 'block'
+        document.getElementById('user-profile').style.display = 'none'
+    }
+
+    loadUsers().then((users) => {
+        console.log('Список пользователей:', users)
+    })
+})
+
+document.getElementById('login-button').addEventListener('click', handleLogin)
+document
+    .getElementById('register-button')
+    .addEventListener('click', handleRegister)
+document.getElementById('logout-button').addEventListener('click', logout)
 
 loadComments()
 handleSubmit()
