@@ -16,28 +16,18 @@ export async function fetchComments() {
 }
 
 export async function postComment(comment) {
-    try {
-        const response = await fetch(API, {
-            method: 'POST',
-            body: JSON.stringify({
-                text: comment.text,
-                name: comment.name,
-            }),
-        })
+    const response = await fetch(API, {
+        method: 'POST',
+        body: JSON.stringify({
+            text: comment.text,
+            name: comment.name,
+        }),
+    })
 
-        if (!response.ok) {
-            const errorData = await response.json()
-            throw new Error(errorData.error || `Ошибка: ${response.statusText}`)
-        }
-
-        const result = await response.json()
-        console.log(
-            'Успешный ответ сервера после отправки комментария:',
-            result,
-        )
-        return result
-    } catch (error) {
-        console.error('Ошибка при отправук комментария:', error.message)
-        throw error
+    if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || `Ошибка: ${response.statusText}`)
     }
+
+    return response.json()
 }

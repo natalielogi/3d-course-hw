@@ -24,6 +24,11 @@ export function handleSubmit() {
                 return
             }
 
+            if (commentName.length < 3) {
+                alert('Имя должно быть не менее 3 символов!')
+                return
+            }
+
             const sanitizedText = sanitizeInput(commentText)
 
             console.log(commentText, commentName)
@@ -51,8 +56,19 @@ export function handleSubmit() {
 
                 renderComments()
                 commentInput.value = ''
+                nameInput.value = ''
             } catch (error) {
-                alert('Не удалось отправить комментарий. Попробуйте снова.')
+                let errorMessage =
+                    'Не удалось отправить комментарий. Попробуйте снова.'
+                if (error.message.includes('Failed to fetch')) {
+                    errorMessage =
+                        'Проблема с подключением к интернету. Проверьте соединение.'
+                } else if (error.message === '400') {
+                    errorMessage = 'Ошибка: Некорректные данные'
+                } else if (error.message === '500') {
+                    errorMessage = 'Ошибка на сервере. Попробуйте снова позже.'
+                }
+                alert(errorMessage)
             } finally {
                 submitButton.disabled = false
                 submitButton.textContent = 'Отправить'
