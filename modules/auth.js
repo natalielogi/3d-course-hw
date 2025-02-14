@@ -1,7 +1,7 @@
 export function saveUserData(userData) {
     localStorage.setItem('authToken', userData.token)
     localStorage.setItem('userName', userData.name)
-    localStorage.setItem('userId', userData.id)
+    localStorage.setItem('userId', userData._id)
 }
 
 export function checkAuth() {

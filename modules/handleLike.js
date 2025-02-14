@@ -1,5 +1,6 @@
-import { delay } from './utils.js'
+import { toggleLike } from './api.js'
 import { renderComments } from './renderComments.js'
+import { getCurrentUser } from './auth.js'
 
 export function handleLike(commentsData) {
     const commentsContainer = document.getElementById('comments-container')
@@ -13,23 +14,25 @@ export function handleLike(commentsData) {
 
         if (!comment || comment.isLikeLoading) return
 
+        const user = getCurrentUser()
+        if (!user.token) {
+            alert('Для лайка комментария войдите в систему.')
+            return
+        }
+
         comment.isLikeLoading = true
         renderComments()
 
-        likeButton.classList.add('-loading-like')
-
         try {
-            await delay(2000)
-            comment.likes = comment.liked
-                ? comment.likes - 1
-                : comment.likes + 1
-            comment.liked = !comment.liked
+            const result = await toggleLike(commentId, user.token)
+
+            comment.likes = result.result.likes
+            comment.liked = result.result.isliked
         } catch (error) {
             console.error('Ошибка обработки лайка:', error)
             alert('Не удалось поставить лайк. Попробуйте снова.')
         } finally {
             comment.isLikeLoading = false
-            likeButton.classList.remove('-loading-like')
             renderComments()
         }
     })

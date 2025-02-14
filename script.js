@@ -1,11 +1,10 @@
 import { loadComments } from './modules/loadComments.js'
-import { handleSubmit } from './modules/handleSubmit.js'
 import { handleLike } from './modules/handleLike.js'
-import { commentsData } from './modules/commentsData.js'
 import { checkAuth, logout, getCurrentUser } from './modules/auth.js'
 import { handleLogin } from './modules/login.js'
 import { handleRegister } from './modules/registr.js'
 import { loadUsers } from './modules/users.js'
+import { handleSubmit, setCurrentUserName } from './modules/handleSubmit.js'
 
 document.addEventListener('DOMContentLoaded', () => {
     if (checkAuth()) {
@@ -27,7 +26,7 @@ document
     .getElementById('register-button')
     .addEventListener('click', handleRegister)
 document.getElementById('logout-button').addEventListener('click', logout)
-
+document.getElementById('submit-btn').addEventListener('click', handleSubmit)
 loadComments()
-handleSubmit()
-handleLike(commentsData)
+handleLike()
+setCurrentUserName()
