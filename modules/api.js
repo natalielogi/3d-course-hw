@@ -63,7 +63,7 @@ export async function deleteComment(commentId, token) {
     return response.json()
 }
 
-export async function toggleLike(commentId, token) {
+export async function toggleLike({ commentId, token }) {
     const response = await fetch(`${COMMENTS_API}/${commentId}/toggle-like`, {
         method: 'POST',
         headers: {
