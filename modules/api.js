@@ -56,11 +56,11 @@ export async function deleteComment(commentId, token) {
     })
 
     if (response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || `Ошибка: ${response.statusText}`)
+        const errorData = await response.json().catch(() => null)
+        throw new Error(errorData?.error || `Ошибка: ${response.statusText}`)
     }
 
-    return response.json()
+    return response.json().catch(() => ({}))
 }
 
 export async function loginUser(login, password) {

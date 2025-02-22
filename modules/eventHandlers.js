@@ -1,6 +1,8 @@
 import { getCurrentUser } from './auth.js'
 import { commentsData } from './commentsData.js'
 import { renderComments } from './renderComments.js'
+import { loadComments } from './loadComments.js'
+import { deleteComment } from './api.js'
 
 export function addLikeHandlers() {
     const likeButtons = document.querySelectorAll('.like-btn')
@@ -53,5 +55,31 @@ export function addReplyHandlers() {
                 commentInput.focus()
             }
         }
+    })
+}
+
+export function addDeleteHandlers() {
+    const deleteButtons = document.querySelectorAll('.delete-btn')
+
+    deleteButtons.forEach((button) => {
+        button.addEventListener('click', async () => {
+            const commentId = button.dataset.id
+            const user = getCurrentUser()
+
+            if (!user || !user.token) {
+                alert('Для удаления комментария войдите в систему.')
+                return
+            }
+
+            if (confirm('Вы уверены, что хотите удалить этот комментарий?')) {
+                try {
+                    await deleteComment(commentId, user.token)
+                    await loadComments() // Перезагружаем комментарии после удаления
+                } catch (error) {
+                    alert('Не удалось удалить комментарий. Попробуйте снова.')
+                    console.error('Ошибка удаления комментария:', error)
+                }
+            }
+        })
     })
 }

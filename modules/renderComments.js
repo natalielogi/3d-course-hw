@@ -3,6 +3,7 @@ import { commentsData } from './commentsData.js'
 import { addLikeHandlers } from './eventHandlers.js'
 import { addReplyHandlers } from './eventHandlers.js'
 import { formatCommentText } from './utils.js'
+import { addDeleteHandlers } from './eventHandlers.js'
 
 export function renderComments() {
     const commentsContainer = document.getElementById('comments-container')
@@ -53,11 +54,17 @@ export function renderComments() {
           </svg> </button>`
         }
 
+        const deleteButtonHtml =
+            user && user.token
+                ? `<button class="delete-btn" data-id="${comment.id}">Удалить</button>`
+                : ''
+
         // Добавляем кнопку лайка, счётчик лайков и кнопку "Ответить"
         actionDiv.innerHTML = `
         ${likeButtonHtml}
         <span class="likes-count">${comment.likes}</span> лайков
-        <button class="reply-btn" data-id="${comment.id}">Ответить</button>`
+        <button class="reply-btn" data-id="${comment.id}">Ответить</button>
+        ${deleteButtonHtml}`
 
         commentDiv.appendChild(actionDiv)
 
@@ -66,4 +73,5 @@ export function renderComments() {
 
     addLikeHandlers()
     addReplyHandlers()
+    addDeleteHandlers()
 }
