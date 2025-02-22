@@ -9,11 +9,14 @@ export function checkAuth() {
 }
 
 export function getCurrentUser() {
-    return {
-        id: localStorage.getItem('userId'),
-        name: localStorage.getItem('userName'),
-        token: localStorage.getItem('authToken'),
+    const token = localStorage.getItem('authToken')
+    const id = localStorage.getItem('userId')
+    const name = localStorage.getItem('userName')
+    if (!token || !id || !name) {
+        return null
     }
+
+    return { id, name, token }
 }
 
 export function logout() {

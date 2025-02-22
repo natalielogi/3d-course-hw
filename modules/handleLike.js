@@ -15,7 +15,7 @@ export function handleLike(commentsData) {
         if (!comment || comment.isLikeLoading) return
 
         const user = getCurrentUser()
-        if (!user.token) {
+        if (!user || !user.token) {
             alert('Для лайка комментария войдите в систему.')
             return
         }
@@ -24,7 +24,7 @@ export function handleLike(commentsData) {
         renderComments()
 
         try {
-            const result = await toggleLike(commentId, user.token)
+            const result = await toggleLike({ commentId, token: user.token })
 
             comment.likes = result.result.likes
             comment.liked = result.result.isliked
