@@ -18,7 +18,7 @@ export function handleRegister() {
             window.location.reload()
         })
         .catch((error) => {
-            alert(error.massage)
+            alert(error.message)
             console.log('Ошибка:', error)
         })
 }

@@ -34,7 +34,7 @@ export async function handleSubmit() {
         return
     }
 
-    const sanitizedText = sanitizeInput(commentText)
+    const sanitizedText = sanitizeInput(commentText, true)
 
     try {
         submitButton.disabled = true

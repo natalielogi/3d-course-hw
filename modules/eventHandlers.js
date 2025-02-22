@@ -1,7 +1,6 @@
 import { getCurrentUser } from './auth.js'
 import { commentsData } from './commentsData.js'
 import { renderComments } from './renderComments.js'
-import { toggleLike } from './api.js'
 
 export function addLikeHandlers() {
     const likeButtons = document.querySelectorAll('.like-btn')
@@ -26,12 +25,8 @@ export function addLikeHandlers() {
             renderComments()
 
             try {
-                const result = await toggleLike({
-                    commentId,
-                    token: user.token,
-                })
-                comment.liked = result.result.isliked
-                comment.likes = result.result.likes
+                comment.liked = !comment.liked
+                comment.likes = +comment.liked ? 1 : 0
             } catch (error) {
                 console.error('Ошибка обработки лайка:', error)
                 alert('Не удалось поставить лайк. Попробуйте снова.')
@@ -41,8 +36,11 @@ export function addLikeHandlers() {
             }
         }
     })
+}
 
+export function addReplyHandlers() {
     const replyButtons = document.querySelectorAll('.reply-btn')
+
     replyButtons.forEach((button) => {
         button.onclick = () => {
             const commentId = parseInt(button.dataset.id, 10)
@@ -50,6 +48,7 @@ export function addLikeHandlers() {
 
             if (comment) {
                 const commentInput = document.getElementById('comment-input')
+                // Добавляем текст с символом > (без экранирования)
                 commentInput.value = `> ${comment.text}\n`
                 commentInput.focus()
             }
