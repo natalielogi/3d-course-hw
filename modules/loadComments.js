@@ -1,4 +1,4 @@
-import { getCommentsFromApi } from './getCommentsFromApi.js'
+import { fetchComments } from './api.js'
 import { commentsData } from './commentsData.js'
 import { renderComments } from './renderComments.js'
 
@@ -6,7 +6,7 @@ export function loadComments() {
     const loadingMessege = document.getElementById('loading-message')
     loadingMessege.style.display = 'block'
 
-    getCommentsFromApi()
+    fetchComments()
         .then((commentsArray) => {
             commentsData.length = 0
 

@@ -1,7 +1,10 @@
 export function sanitizeInput(input) {
-    const escapedInput = input.replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+    // Экранируем только < и >
+    return input.replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+}
 
-    return escapedInput.replace(/^&gt; (.*)$/gm, '<blockquote>$1</blockquote>')
+export function formatCommentText(text) {
+    return text.replace(/^&gt; (.*)$/gm, '<blockquote>$1</blockquote>')
 }
 
 export function delay(interval = 300) {
